@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Newspaper Control</string>
+    <string name="avatar_description">Default newsboy avatar</string>
+    <string name="newsboy_name">Newsboy name</string>
 </resources>
