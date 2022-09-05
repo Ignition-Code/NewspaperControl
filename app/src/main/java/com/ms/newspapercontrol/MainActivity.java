@@ -24,12 +24,6 @@ public class MainActivity extends AppCompatActivity {
         rvNewsboy = findViewById(R.id.rvNewsboy);
         rvNewsboy.setLayoutManager(new GridLayoutManager(this, 2));
         newsboyList = new ArrayList<>();
-        newsboyList.add(new Newsboy(1L, "Nombre y apellido"));
-        newsboyList.add(new Newsboy(2L, "Nombre y apellido"));
-        newsboyList.add(new Newsboy(3L, "Nombre y apellido"));
-        newsboyList.add(new Newsboy(4L, "Nombre y apellido"));
-        newsboyList.add(new Newsboy(5L, "Nombre y apellido"));
-        newsboyList.add(new Newsboy(6L, "Nombre y apellido"));
 
         rvNewsboy.setAdapter(new NewsboyAdapter(newsboyList));
     }
