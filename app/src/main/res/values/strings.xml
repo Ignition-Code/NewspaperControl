@@ -2,4 +2,7 @@
     <string name="app_name">Newspaper Control</string>
     <string name="avatar_description">Default newsboy avatar</string>
     <string name="newsboy_name">Newsboy name</string>
+    <string name="save_newsboy_title">Registrar Canillita</string>
+    <string name="newsboy_name_description">Nombre</string>
+    <string name="save_description">Guardar</string>
 </resources>
