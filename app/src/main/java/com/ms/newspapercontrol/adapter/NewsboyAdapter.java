@@ -16,21 +16,25 @@ import java.util.List;
 
 public class NewsboyAdapter extends RecyclerView.Adapter<NewsboyAdapter.ViewHolder> {
 
-    private final List<Newsboy> NEWSBOY_LIST;
+    private List<Newsboy> newsboyList;
 
     public NewsboyAdapter(List<Newsboy> newsboysList) {
-        this.NEWSBOY_LIST = newsboysList;
+        this.newsboyList = newsboysList;
+    }
+
+    public void setNewsboyList(List<Newsboy> newsboyList) {
+        this.newsboyList = newsboyList;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String name = this.NEWSBOY_LIST.get(position).getNewsboyName();
+        String name = this.newsboyList.get(position).getNewsboyName();
         holder.tvNewsboyName.setText(name);
     }
 
     @Override
     public int getItemCount() {
-        return this.NEWSBOY_LIST.size();
+        return this.newsboyList.size();
     }
 
     @NonNull
