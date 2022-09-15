@@ -5,4 +5,5 @@
     <string name="save_newsboy_title">Registrar Canillita</string>
     <string name="newsboy_name_description">Nombre</string>
     <string name="save_description">Guardar</string>
+    <string name="add_newsboy">Add newsboy</string>
 </resources>
