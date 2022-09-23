@@ -6,4 +6,7 @@
     <string name="newsboy_name_description">Nombre</string>
     <string name="save_description">Guardar</string>
     <string name="add_newsboy">Add newsboy</string>
+    <string name="return_description">Devolver</string>
+    <string name="zero_number">0</string>
+    <string name="quantity">Devoluc.</string>
 </resources>

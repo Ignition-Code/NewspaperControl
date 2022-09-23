@@ -52,4 +52,10 @@ public class Item {
     //def foreign key
     @ColumnInfo(name = "newsboy_id", index = true)
     public Integer itemNewsboyID;
+    //item return status
+    @ColumnInfo(name = "item_return_status")
+    public Integer itemReturnStatus;
+    //item collectable option
+    @ColumnInfo(name = "item_collectable")
+    public Integer itemCollectable;
 }
