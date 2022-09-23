@@ -16,6 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Newsboy {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "newsboy_id")
     public Long newsboyID;
     @ColumnInfo(name = "newsboy_name")
     public String newsboyName;
