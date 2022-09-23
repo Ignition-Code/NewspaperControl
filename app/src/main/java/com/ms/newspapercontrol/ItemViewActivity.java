@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ms.newspapercontrol.adapter.ItemAdapter;
 import com.ms.newspapercontrol.entities.Item;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class ItemViewActivity extends AppCompatActivity {
     private RecyclerView rvItem;
 
     private List<Item> itemList;
+    private ItemAdapter itemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +30,7 @@ public class ItemViewActivity extends AppCompatActivity {
         rvItem.setHasFixedSize(true);
         rvItem.setLayoutManager(new LinearLayoutManager(this));
         itemList = new ArrayList<>();
+        itemAdapter = new ItemAdapter(itemList);
+        rvItem.setAdapter(itemAdapter);
     }
 }
