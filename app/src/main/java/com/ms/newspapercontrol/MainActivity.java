@@ -1,5 +1,6 @@
 package com.ms.newspapercontrol;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsboyAdapter.NewsboyListener {
 
     private RecyclerView rvNewsboy;
     private List<Newsboy> newsboyList;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         rvNewsboy = findViewById(R.id.rvNewsboy);
         rvNewsboy.setLayoutManager(new GridLayoutManager(this, 2));
         newsboyList = new ArrayList<>();
-        newsboyAdapter = new NewsboyAdapter(newsboyList);
+        newsboyAdapter = new NewsboyAdapter(newsboyList, this);
         rvNewsboy.setAdapter(newsboyAdapter);
         databaseController = Room.databaseBuilder(getApplicationContext(), DatabaseController.class, "newsboy-application").build();
         getNewsboyList();
@@ -95,5 +96,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onNewsboyClick(int position) {
+        Intent intent = new Intent(this, ItemViewActivity.class);
+        intent.putExtra("newsboy_id", newsboyList.get(position).getNewsboyID());
+        startActivity(intent);
     }
 }

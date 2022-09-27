@@ -13,4 +13,6 @@
     <string name="price_description">Precio</string>
     <string name="quantity_description">Cantidad</string>
     <string name="collectable_description">Coleccionable</string>
+    <string name="add_item">Add item</string>
+    <string name="add">Agregar</string>
 </resources>
