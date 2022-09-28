@@ -51,7 +51,7 @@ public class Item {
     public Integer itemAmountRefunded;
     //def foreign key
     @ColumnInfo(name = "newsboy_id", index = true)
-    public Integer itemNewsboyID;
+    public Long itemNewsboyID;
     //item return status
     @ColumnInfo(name = "item_return_status")
     public Integer itemReturnStatus;

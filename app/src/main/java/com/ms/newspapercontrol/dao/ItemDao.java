@@ -10,8 +10,8 @@ import java.util.List;
 
 @Dao
 public interface ItemDao {
-    @Query("SELECT * FROM item WHERE newsboy_id = :id")
-    List<Item> findByID(Integer id);
+    @Query("SELECT * FROM item WHERE newsboy_id = :id AND item_return_status = :status")
+    List<Item> listByID(Long id, Integer status);
 
     @Insert
     void insertItem(Item item);
