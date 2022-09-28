@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ms.newspapercontrol.R;
@@ -42,6 +43,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (position == 0) {
+            holder.etReturnItemView.requestFocus();
+        }
         String name = this.itemList.get(position).getItemName();
         String number = this.itemList.get(position).getItemQuantityDelivered().toString();
 
@@ -49,7 +53,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvItemNumberItemView.setText(number);
 
         if (this.itemList.get(position).getItemCollectable() == 0) {
-            holder.btReturnCollectable.setVisibility(View.INVISIBLE);
+//            holder.btReturnCollectable.setVisibility(View.INVISIBLE);
+//            holder.btReturnCollectable.setWidth(0);
+            holder.btReturnCollectable.setText("");
+            holder.btReturnCollectable.setEnabled(false);
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) holder.btReturnCollectable.getLayoutParams();
+            layoutParams.width = 1;
+            holder.btReturnCollectable.setLayoutParams(layoutParams);
         }
 
         holder.etReturnItemView.addTextChangedListener(new TextWatcher() {
