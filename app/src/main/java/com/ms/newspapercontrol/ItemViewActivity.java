@@ -133,10 +133,15 @@ public class ItemViewActivity extends AppCompatActivity {
                     ItemDao itemDao = databaseController.itemDao();
                     itemDao.insertItem(itemToSave);
                     List<Item> tmpList = itemDao.listByID(newsboyID, 0);
+                    itemList.clear();
+                    itemList.addAll(tmpList);
                     handler.post(() -> {
                         alertDialog.dismiss();
                         itemAdapter.setItemList(tmpList);
-                        runOnUiThread(() -> itemAdapter.notifyItemChanged(tmpList.size() - 1));
+                        runOnUiThread(() -> {
+                            itemAdapter.notifyItemRangeRemoved(0, itemList.size() - 1);
+                            itemAdapter.notifyItemRangeInserted(0, tmpList.size());
+                        });
                     });
                 });
                 runOnUiThread(() -> Toast.makeText(this, "Save item", Toast.LENGTH_SHORT).show());
