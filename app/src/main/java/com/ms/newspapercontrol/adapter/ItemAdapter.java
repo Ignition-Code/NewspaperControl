@@ -53,8 +53,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvItemNumberItemView.setText(number);
 
         if (this.itemList.get(position).getItemCollectable() == 0) {
-//            holder.btReturnCollectable.setVisibility(View.INVISIBLE);
-//            holder.btReturnCollectable.setWidth(0);
             holder.btReturnCollectable.setText("");
             holder.btReturnCollectable.setEnabled(false);
             ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) holder.btReturnCollectable.getLayoutParams();
@@ -78,6 +76,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 String quantity = holder.etReturnItemView.getText().toString();
                 if (!quantity.isEmpty()) {
                     itemList.get(holder.getAdapterPosition()).setItemQuantityDelivered(Integer.parseInt(quantity));
+                } else {
+
                 }
             }
         });
