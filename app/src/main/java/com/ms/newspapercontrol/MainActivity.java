@@ -4,6 +4,7 @@ import android.Manifest;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -34,16 +36,16 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@RequiresApi(api = Build.VERSION_CODES.S)
 public class MainActivity extends AppCompatActivity implements NewsboyAdapter.NewsboyListener {
 
-    private RecyclerView rvNewsboy;
     private List<Newsboy> newsboyList;
     private DatabaseController databaseController;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private NewsboyAdapter newsboyAdapter;
 
-    private static String[] PERMISSIONS_STORAGE = {
+    private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH_PRIVILEGED
     };
-    private static String[] PERMISSIONS_LOCATION = {
+
+    private static final String[] PERMISSIONS_LOCATION = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
@@ -62,11 +65,12 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
             Manifest.permission.BLUETOOTH_PRIVILEGED
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rvNewsboy = findViewById(R.id.rvNewsboy);
+        RecyclerView rvNewsboy = findViewById(R.id.rvNewsboy);
         rvNewsboy.setLayoutManager(new GridLayoutManager(this, 2));
         newsboyList = new ArrayList<>();
         newsboyAdapter = new NewsboyAdapter(newsboyList, this);
@@ -196,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
                     });
                 });
             });
+            return true;
+        } else if (item.getItemId() == R.id.menu_add_item) {
             return true;
         }
         return super.onOptionsItemSelected(item);
