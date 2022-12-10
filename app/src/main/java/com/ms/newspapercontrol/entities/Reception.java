@@ -36,8 +36,8 @@ public class Reception {
         @ColumnInfo(name = "reception_price")
         public Integer receptionPrice;
         //defines delivery date
-        @ColumnInfo(name = "reception_delivery_date")
-        public String receptionDeliveryDate;
+        @ColumnInfo(name = "reception_date")
+        public String receptionDate;
         //defines quantity delivered
         @ColumnInfo(name = "item_quantity_received")
         public Integer itemQuantityReceived;

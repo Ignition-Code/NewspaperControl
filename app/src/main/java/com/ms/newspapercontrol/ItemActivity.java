@@ -1,5 +1,6 @@
 package com.ms.newspapercontrol;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ItemActivity extends AppCompatActivity {
+public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnItemListener {
 
     private DatabaseController databaseController;
     private final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
@@ -42,7 +43,7 @@ public class ItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item);
         RecyclerView rvItem = findViewById(R.id.rvItemList);
         this.itemList = new ArrayList<>();
-        this.itemAdapter = new ItemAdapter(this.itemList);
+        this.itemAdapter = new ItemAdapter(this.itemList, this);
         rvItem.setHasFixedSize(true);
         rvItem.setLayoutManager(new LinearLayoutManager(this));
         rvItem.setAdapter(itemAdapter);
@@ -133,5 +134,14 @@ public class ItemActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(this, ReceptionActivity.class);
+        Item item = this.itemList.get(position);
+        intent.putExtra("item_id", item.getItemID());
+        intent.putExtra("item_name", item.getItemName());
+        startActivity(intent);
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ms.newspapercontrol.adapter.ItemAdapter;
 import com.ms.newspapercontrol.entities.Item;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class ItemViewActivity extends AppCompatActivity {
         //    private ExecutorService executor = Executors.newSingleThreadExecutor();
         //    private Handler handler = new Handler(Looper.getMainLooper());
         List<Item> itemList = new ArrayList<>();
-        ItemAdapter itemAdapter = new ItemAdapter(itemList);
+//        ItemAdapter itemAdapter = new ItemAdapter(itemList);
 //        rvItem.setHasFixedSize(true);
 //        rvItem.setLayoutManager(new LinearLayoutManager(this));
 //        rvItem.setAdapter(itemAdapter);
