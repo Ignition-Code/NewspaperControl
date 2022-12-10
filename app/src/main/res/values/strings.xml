@@ -9,7 +9,7 @@
     <string name="return_description">Devolver</string>
     <string name="zero_number">0</string>
     <string name="quantity">Devoluc.</string>
-    <string name="save_item_title">Guardar Articulos</string>
+    <string name="save_item_title">Guardar Item</string>
     <string name="price_description">Precio</string>
     <string name="quantity_description">Cantidad</string>
     <string name="collectable_description">Coleccionable</string>

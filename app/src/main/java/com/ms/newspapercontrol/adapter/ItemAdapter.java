@@ -1,12 +1,8 @@
 package com.ms.newspapercontrol.adapter;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,10 +22,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         this.itemList = itemList;
     }
 
-    public List<Item> getItemList() {
-        return this.itemList;
-    }
-
     public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
     }
@@ -37,50 +29,55 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position == 0) {
-            holder.etReturnItemView.requestFocus();
-        }
+//        if (position == 0) {
+//            holder.etReturnItemView.requestFocus();
+//        }
         String name = this.itemList.get(position).getItemName();
-        String number = this.itemList.get(position).getItemQuantityDelivered().toString();
+        String type = this.itemList.get(position).getItemCollectable() == 1 ? "Coleccionable" : "";
 
-        holder.tvItemNameItemView.setText(name);
-        holder.tvItemNumberItemView.setText(number);
-
-        if (this.itemList.get(position).getItemCollectable() == 0) {
-            holder.btReturnCollectable.setText("");
-            holder.btReturnCollectable.setEnabled(false);
-            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) holder.btReturnCollectable.getLayoutParams();
-            layoutParams.width = 1;
-            holder.btReturnCollectable.setLayoutParams(layoutParams);
+        holder.tvItemName.setText(name);
+        holder.tvItemCollectable.setText(type);
+        if (type.isEmpty()) {
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) holder.tvItemCollectable.getLayoutParams();
+            layoutParams.height = 1;
+            holder.tvItemCollectable.setLayoutParams(layoutParams);
         }
 
-        holder.etReturnItemView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        if (this.itemList.get(position).getItemCollectable() == 0) {
+//            holder.btReturnCollectable.setText("");
+//            holder.btReturnCollectable.setEnabled(false);
+//            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) holder.btReturnCollectable.getLayoutParams();
+//            layoutParams.width = 1;
+//            holder.btReturnCollectable.setLayoutParams(layoutParams);
+//        }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String quantity = holder.etReturnItemView.getText().toString();
-                if (!quantity.isEmpty()) {
-                    itemList.get(holder.getAdapterPosition()).setItemQuantityDelivered(Integer.parseInt(quantity));
-                } else {
-
-                }
-            }
-        });
+//        holder.etReturnItemView.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String quantity = holder.etReturnItemView.getText().toString();
+//                if (!quantity.isEmpty()) {
+//                    itemList.get(holder.getAdapterPosition()).setItemQuantityDelivered(Integer.parseInt(quantity));
+//                } else {
+//
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -88,18 +85,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return this.itemList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final Button btReturnCollectable;
-        private final EditText etReturnItemView;
-        private final TextView tvItemNameItemView, tvItemNumberItemView;
+        private final TextView tvItemName, tvItemCollectable;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.btReturnCollectable = itemView.findViewById(R.id.btReturnCollectable);
-            this.etReturnItemView = itemView.findViewById(R.id.etReturnItemView);
-            this.tvItemNameItemView = itemView.findViewById(R.id.tvItemNameItemView);
-            this.tvItemNumberItemView = itemView.findViewById(R.id.tvItemNumberItemView);
+            this.tvItemName = itemView.findViewById(R.id.tvItemName);
+            this.tvItemCollectable = itemView.findViewById(R.id.tvItemCollectable);
         }
     }
 }

@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
             });
             return true;
         } else if (item.getItemId() == R.id.menu_add_item) {
+            startActivity(new Intent(this, ItemActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
