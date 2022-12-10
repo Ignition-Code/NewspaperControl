@@ -17,9 +17,11 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private List<Item> itemList;
+    private final OnItemListener ON_ITEM_LISTENER;
 
-    public ItemAdapter(List<Item> itemList) {
+    public ItemAdapter(List<Item> itemList, OnItemListener onItemListener) {
         this.itemList = itemList;
+        this.ON_ITEM_LISTENER = onItemListener;
     }
 
     public void setItemList(List<Item> itemList) {
@@ -30,7 +32,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, this.ON_ITEM_LISTENER);
     }
 
     @Override
@@ -85,14 +87,26 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return this.itemList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private final OnItemListener ON_ITEM_LISTENER;
         private final TextView tvItemName, tvItemCollectable;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemListener onItemListener) {
             super(itemView);
+            this.ON_ITEM_LISTENER = onItemListener;
             this.tvItemName = itemView.findViewById(R.id.tvItemName);
             this.tvItemCollectable = itemView.findViewById(R.id.tvItemCollectable);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            this.ON_ITEM_LISTENER.onItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnItemListener {
+        void onItemClick(int position);
     }
 }

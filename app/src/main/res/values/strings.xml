@@ -15,4 +15,5 @@
     <string name="collectable_description">Coleccionable</string>
     <string name="add_item">Add item</string>
     <string name="add">Agregar</string>
+    <string name="reception_title">Guardar Recepción</string>
 </resources>
