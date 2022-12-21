@@ -8,12 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Entity(tableName = "newsboy")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Newsboy {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "newsboy_id")

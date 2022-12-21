@@ -2,6 +2,7 @@ package com.ms.newspapercontrol;
 
 import android.Manifest;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
     private NewsboyAdapter newsboyAdapter;
+
+    private enum ACTIVITY_MODE {
+        DELIVERY,
+        RETURN
+    }
+
 
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -101,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
             if (connectedPrinter != null) {
                 printTextStyles();
             } else {
-                Printama.showPrinterList(this, R.color.teal_700, printerName -> {});
+                Printama.showPrinterList(this, R.color.teal_700, printerName -> {
+                });
             }
         });
     }
@@ -210,8 +218,31 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
 
     @Override
     public void onNewsboyClick(int position) {
-        Intent intent = new Intent(this, ItemViewActivity.class);
-        intent.putExtra("newsboy_id", newsboyList.get(position).getNewsboyID());
-        startActivity(intent);
+        long newsboyID = this.newsboyList.get(position).getNewsboyID();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("")
+                .setPositiveButton("Devolución", (dialog, id) -> {
+                    showActivity(ACTIVITY_MODE.RETURN, newsboyID);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Entrega", (DialogInterface.OnClickListener) (dialog, id) -> {
+                    showActivity(ACTIVITY_MODE.DELIVERY, newsboyID);
+                    dialog.dismiss();
+                });
+        builder.create().show();
+
+    }
+
+    private void showActivity(ACTIVITY_MODE mode, long newsboyID) {
+        Intent intent;
+        if (mode == ACTIVITY_MODE.DELIVERY) {
+            intent = new Intent(this, DeliveryActivity.class);
+            intent.putExtra("newsboy_id", newsboyID);
+            startActivity(intent);
+        } else if (mode == ACTIVITY_MODE.RETURN) {
+//            intent = new Intent(this, ReturnActivity.class);
+//            intent.putExtra("newsboy_id", newsboyID);
+//            startActivity(intent);
+        }
     }
 }
