@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Entity(tableName = "delivery", foreignKeys = {
@@ -29,6 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Delivery {
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "delivery_id")

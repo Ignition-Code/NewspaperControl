@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Entity(tableName = "reception", foreignKeys = {
@@ -22,6 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Reception {
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "reception_id")
@@ -44,4 +46,7 @@ public class Reception {
         //def foreign key
         @ColumnInfo(name = "item_id", index = true)
         public Long itemID;
+        //Product name to show
+        @ColumnInfo(name = "item_name")
+        public String receptionProductName;
 }

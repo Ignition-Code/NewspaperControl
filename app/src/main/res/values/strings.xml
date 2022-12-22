@@ -16,4 +16,5 @@
     <string name="add_item">Add item</string>
     <string name="add">Agregar</string>
     <string name="reception_title">Guardar Recepción</string>
+    <string name="delivery_title">Guardar Entrega</string>
 </resources>

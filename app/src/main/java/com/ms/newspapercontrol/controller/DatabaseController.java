@@ -12,7 +12,7 @@ import com.ms.newspapercontrol.entities.Item;
 import com.ms.newspapercontrol.entities.Newsboy;
 import com.ms.newspapercontrol.entities.Reception;
 
-@Database(entities = {Newsboy.class, Item.class, Reception.class, Delivery.class}, version = 5)
+@Database(entities = {Newsboy.class, Item.class, Reception.class, Delivery.class}, version = 6, exportSchema = false)
 public abstract class DatabaseController extends RoomDatabase {
     public abstract NewsboyDao newsboyDao();
     public abstract ItemDao itemDao();

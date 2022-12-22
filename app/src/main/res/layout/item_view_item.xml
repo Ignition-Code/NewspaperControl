@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvItemNameItemView"
+                android:id="@+id/tvItemNameDeliveryItem"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -46,7 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/etReturnItemView"
+                android:id="@+id/etDeliveryNumberDeliveryItem"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -71,7 +71,7 @@
                 android:text="@string/zero_number"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/etReturnItemView"
+                app:layout_constraintEnd_toStartOf="@+id/etDeliveryNumberDeliveryItem"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
