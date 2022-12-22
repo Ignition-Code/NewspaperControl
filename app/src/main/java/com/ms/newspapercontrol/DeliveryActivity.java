@@ -189,6 +189,7 @@ public class DeliveryActivity extends AppCompatActivity {
     }
 
     private void printResume(List<Printer> toPrint) {
+        Integer maxLength = getMaxLength(toPrint) + 4;
         Printama.with(this).connect(printama -> {
             printama.printDoubleDashedLine();
             printama.setBold();
@@ -197,8 +198,9 @@ public class DeliveryActivity extends AppCompatActivity {
             printama.printTextln(" ");
 
             for (Printer printer : toPrint) {
-                printama.printTextNormal(printer.getItemName());
+                printama.printTextNormal(getFormattedText(printer.getItemName().toUpperCase(), maxLength));
                 printama.printTextlnWideBold(printer.getItemNumber());
+                printama.printLine();
                 printama.addNewLine();
                 //printama.printTextln("");
             }
@@ -207,5 +209,26 @@ public class DeliveryActivity extends AppCompatActivity {
             printama.feedPaper();
             printama.close();
         }, this::showToast);
+    }
+
+    private Integer getMaxLength(List<Printer> toPrint){
+        int length = 0;
+        for (Printer print: toPrint) {
+            int tmp = print.getItemName().length();
+            if (tmp > length) {
+                length = tmp;
+            }
+        }
+
+        return length;
+    }
+
+    private String getFormattedText(final String text, final Integer length) {
+        String newText = text;
+        for (int i = 0; i <= (length - text.length()); i++) {
+            newText += " ";
+        }
+
+        return newText;
     }
 }

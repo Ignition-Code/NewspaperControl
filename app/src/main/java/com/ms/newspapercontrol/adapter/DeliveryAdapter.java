@@ -100,4 +100,14 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
             tvItemNameDeliveryItem = itemView.findViewById(R.id.tvItemNameDeliveryItem);
         }
     }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 }
