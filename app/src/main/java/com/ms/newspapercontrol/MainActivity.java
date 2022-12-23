@@ -136,9 +136,10 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
             intent.putExtra("newsboy_name", newsboyName);
             startActivity(intent);
         } else if (mode == ACTIVITY_MODE.RETURN) {
-//            intent = new Intent(this, ReturnActivity.class);
-//            intent.putExtra("newsboy_id", newsboyID);
-//            startActivity(intent);
+            intent = new Intent(this, ReturnActivity.class);
+            intent.putExtra("newsboy_id", newsboyID);
+            intent.putExtra("newsboy_name", newsboyName);
+            startActivity(intent);
         }
     }
 }

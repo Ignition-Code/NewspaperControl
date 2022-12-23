@@ -39,7 +39,10 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
                             null,
                             null,
                             null,
-                            receptionList.get(i).getReceptionID()
+                            receptionList.get(i).getReceptionID(),
+                            "",
+                            null,
+                            null
                     )
             );
         }
@@ -96,8 +99,8 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            etDeliveryNumberDeliveryItem = itemView.findViewById(R.id.etDeliveryNumberDeliveryItem);
-            tvItemNameDeliveryItem = itemView.findViewById(R.id.tvItemNameDeliveryItem);
+            etDeliveryNumberDeliveryItem = itemView.findViewById(R.id.etItemNumberReturn);
+            tvItemNameDeliveryItem = itemView.findViewById(R.id.tvItemNameReturn);
         }
     }
 

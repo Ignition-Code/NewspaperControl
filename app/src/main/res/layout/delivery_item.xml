@@ -24,7 +24,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvItemNameDeliveryItem"
+                android:id="@+id/tvItemNameReturn"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -32,12 +32,12 @@
                 android:gravity="center_vertical"
                 android:text="@string/newsboy_name_description"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/etDeliveryNumberDeliveryItem"
+                app:layout_constraintEnd_toStartOf="@+id/etItemNumberReturn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/etDeliveryNumberDeliveryItem"
+                android:id="@+id/etItemNumberReturn"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

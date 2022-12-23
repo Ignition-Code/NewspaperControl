@@ -92,7 +92,10 @@ public class DeliveryActivity extends AppCompatActivity {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year1, monthOfYear, dayOfMonth) -> tvDateDelivery.setText(getFormattedDate(year1, (monthOfYear + 1), dayOfMonth)), year, month, day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year1, monthOfYear, dayOfMonth) -> {
+                tvDateDelivery.setText(getFormattedDate(year1, (monthOfYear + 1), dayOfMonth));
+                getReceptionList();
+            }, year, month, day);
             datePickerDialog.show();
         });
         btSaveDelivery.setOnClickListener(v -> save());
@@ -166,8 +169,10 @@ public class DeliveryActivity extends AppCompatActivity {
     private void getReceptionList() {
         EXECUTOR.execute(() -> {
             ReceptionDao receptionDao = databaseController.receptionDao();
+            int oldSize = receptionList.size();
             receptionList = receptionDao.findReceptionByDate(tvDateDelivery.getText().toString());
             HANDLER.post(() -> {
+                deliveryAdapter.notifyItemRangeRemoved(0, oldSize);
                 deliveryAdapter.setReceptionList(receptionList);
                 deliveryAdapter.notifyItemRangeInserted(0, receptionList.size() - 1);
             });
@@ -202,7 +207,6 @@ public class DeliveryActivity extends AppCompatActivity {
                 printama.printTextlnWideBold(printer.getItemNumber());
                 printama.printLine();
                 printama.addNewLine();
-                //printama.printTextln("");
             }
 
             printama.setNormalText();

@@ -52,4 +52,10 @@ public class Delivery {
         public Long newsboyID;
         @ColumnInfo(name = "reception_id", index = true)
         public Long receptionID;
+        @ColumnInfo(name = "item_name")
+        public String itemName;
+        @ColumnInfo(name = "item_collectable")
+        public Integer itemCollectable;
+        @ColumnInfo(name = "reception_newsboy_price")
+        public Integer receptionNewsboyPrice;
 }
