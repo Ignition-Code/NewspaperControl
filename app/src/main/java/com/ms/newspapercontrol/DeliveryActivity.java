@@ -135,6 +135,7 @@ public class DeliveryActivity extends AppCompatActivity {
                                         PERMISSIONS_STORAGE,
                                         1
                                 );
+                                printDetail(toPrint);
                             }
 
                             if (permission2 != PackageManager.PERMISSION_GRANTED) {
@@ -143,6 +144,7 @@ public class DeliveryActivity extends AppCompatActivity {
                                         PERMISSIONS_LOCATION,
                                         1
                                 );
+                                printDetail(toPrint);
                             }
 
                             printDetail(toPrint);
@@ -162,11 +164,13 @@ public class DeliveryActivity extends AppCompatActivity {
         BluetoothDevice connectedPrinter = Printama.with(this).getConnectedPrinter();
         if (connectedPrinter != null) {
             printResume(toPrint);
+            finish();
         } else {
             Printama.showPrinterList(this, R.color.teal_700, printerName -> {
+                printResume(toPrint);
+                finish();
             });
         }
-        finish();
     }
 
     /**

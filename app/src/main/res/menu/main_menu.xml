@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_add_item"
         android:title="@string/add"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_bluetooth"
+        android:icon="@drawable/ic_bluetooth"
+        android:title="Bluetooth Connect"
+        app:showAsAction="ifRoom" />
 </menu>

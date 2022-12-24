@@ -1,7 +1,10 @@
 package com.ms.newspapercontrol;
 
+import android.Manifest;
+import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,15 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.anggastudio.printama.Printama;
 import com.ms.newspapercontrol.adapter.NewsboyAdapter;
 import com.ms.newspapercontrol.controller.DatabaseController;
 import com.ms.newspapercontrol.dao.NewsboyDao;
@@ -44,6 +50,26 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
         DELIVERY,
         RETURN
     }
+
+    private static final String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+    };
+
+    private static final String[] PERMISSIONS_LOCATION = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
@@ -111,8 +137,38 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
         } else if (item.getItemId() == R.id.menu_add_item) {
             startActivity(new Intent(this, ItemActivity.class));
             return true;
+        } else if (item.getItemId() == R.id.menu_bluetooth) {
+            int permission1 = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            int permission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
+            if (permission1 != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        PERMISSIONS_STORAGE,
+                        1
+                );
+            } else if (permission2 != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        PERMISSIONS_LOCATION,
+                        1
+                );
+            }
+
+            checkBluetooth();
+
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkBluetooth() {
+        BluetoothDevice connectedPrinter = Printama.with(this).getConnectedPrinter();
+        if (connectedPrinter != null) {
+            runOnUiThread(() -> Toast.makeText(this, "Bluetooth already connected!", Toast.LENGTH_SHORT).show());
+        } else {
+            Printama.showPrinterList(this, R.color.teal_700, printerName -> {
+            });
+        }
     }
 
     @Override
