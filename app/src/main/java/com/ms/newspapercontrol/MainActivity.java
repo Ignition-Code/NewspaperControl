@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
 
     private List<Newsboy> newsboyList;
     private DatabaseController databaseController;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler handler = new Handler(Looper.getMainLooper());
     private NewsboyAdapter newsboyAdapter;
+
+    private final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+    private final Handler HANDLER = new Handler(Looper.getMainLooper());
 
     private enum ACTIVITY_MODE {
         DELIVERY,
@@ -62,11 +63,15 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
      * List of saved newsboy
      */
     private void getNewsboyList() {
-        executor.execute(() -> {
+        EXECUTOR.execute(() -> {
+            final int oldSize = newsboyList.size();
             NewsboyDao newsboyDao = databaseController.newsboyDao();
             newsboyList = newsboyDao.getAll();
-            newsboyAdapter.setNewsboyList(newsboyList);
-            newsboyAdapter.notifyItemRangeInserted(0, newsboyList.size() - 1);
+            HANDLER.post(() -> {
+                newsboyAdapter.notifyItemRangeRemoved(0, oldSize);
+                newsboyAdapter.setNewsboyList(newsboyList);
+                newsboyAdapter.notifyItemRangeInserted(0, newsboyList.size());
+            });
         });
     }
 
@@ -89,16 +94,16 @@ public class MainActivity extends AppCompatActivity implements NewsboyAdapter.Ne
                 EditText etNewsboyName = view.findViewById(R.id.etSaveNewsboyName);
                 Newsboy newsboy = new Newsboy();
                 newsboy.setNewsboyName(etNewsboyName.getText().toString());
-                executor.execute(() -> {
+                EXECUTOR.execute(() -> {
                     NewsboyDao newsboyDao = databaseController.newsboyDao();
                     newsboyDao.insertNewsboy(newsboy);
-                    List<Newsboy> tmpList = newsboyDao.getAll();
-                    handler.post(() -> {
-                        alertDialog.dismiss();
+                    HANDLER.post(() -> {
+//                        newsboyAdapter.setNewsboyList(tmpList);
+//                        newsboyAdapter.notifyItemChanged(tmpList.size());
                         runOnUiThread(() -> {
-                            newsboyAdapter.setNewsboyList(tmpList);
-                            newsboyAdapter.notifyItemChanged(tmpList.size() - 1);
+                            getNewsboyList();
                         });
+                        alertDialog.dismiss();
                     });
                 });
             });

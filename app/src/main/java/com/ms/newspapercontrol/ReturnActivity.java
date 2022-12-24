@@ -83,7 +83,7 @@ public class ReturnActivity extends AppCompatActivity {
             deliveryList = deliveryDao.findActiveDelivery(newsboyID);
             HANDLER.post(() -> {
                 returnAdapter.setDeliveryList(deliveryList);
-                returnAdapter.notifyItemRangeInserted(0, deliveryList.size() - 1);
+                returnAdapter.notifyItemRangeInserted(0, deliveryList.size());
             });
         });
     }

@@ -59,7 +59,7 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
             ItemDao itemDao = databaseController.itemDao();
             itemList = itemDao.findByStatus(1);
             itemAdapter.setItemList(itemList);
-            itemAdapter.notifyItemRangeInserted(0, itemList.size() - 1);
+            itemAdapter.notifyItemRangeInserted(0, itemList.size());
         });
     }
 
@@ -124,7 +124,7 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
                         alertDialog.dismiss();
                         itemAdapter.setItemList(tmpList);
                         runOnUiThread(() -> {
-                            itemAdapter.notifyItemRangeRemoved(0, itemList.size() - 1);
+                            itemAdapter.notifyItemRangeRemoved(0, itemList.size());
                             itemAdapter.notifyItemRangeInserted(0, tmpList.size());
                         });
                     });

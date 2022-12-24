@@ -130,13 +130,14 @@ public class DeliveryActivity extends AppCompatActivity {
                             int permission1 = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                             int permission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
                             if (permission1 != PackageManager.PERMISSION_GRANTED) {
-                                // We don't have permission so prompt the user
                                 ActivityCompat.requestPermissions(
                                         this,
                                         PERMISSIONS_STORAGE,
                                         1
                                 );
-                            } else if (permission2 != PackageManager.PERMISSION_GRANTED) {
+                            }
+
+                            if (permission2 != PackageManager.PERMISSION_GRANTED) {
                                 ActivityCompat.requestPermissions(
                                         this,
                                         PERMISSIONS_LOCATION,
@@ -144,15 +145,9 @@ public class DeliveryActivity extends AppCompatActivity {
                                 );
                             }
 
-                            BluetoothDevice connectedPrinter = Printama.with(this).getConnectedPrinter();
-                            if (connectedPrinter != null) {
-                                printResume(toPrint);
-                            } else {
-                                Printama.showPrinterList(this, R.color.teal_700, printerName -> {
-                                });
-                            }
+                            printDetail(toPrint);
                             dialog.dismiss();
-                            finish();
+
                         })
                         .setNegativeButton("Cancelar", (DialogInterface.OnClickListener) (dialog, id) -> {
                             dialog.dismiss();
@@ -161,6 +156,17 @@ public class DeliveryActivity extends AppCompatActivity {
                 builder.create().show();
             });
         });
+    }
+
+    private void printDetail(List<Printer> toPrint) {
+        BluetoothDevice connectedPrinter = Printama.with(this).getConnectedPrinter();
+        if (connectedPrinter != null) {
+            printResume(toPrint);
+        } else {
+            Printama.showPrinterList(this, R.color.teal_700, printerName -> {
+            });
+        }
+        finish();
     }
 
     /**
@@ -174,7 +180,7 @@ public class DeliveryActivity extends AppCompatActivity {
             HANDLER.post(() -> {
                 deliveryAdapter.notifyItemRangeRemoved(0, oldSize);
                 deliveryAdapter.setReceptionList(receptionList);
-                deliveryAdapter.notifyItemRangeInserted(0, receptionList.size() - 1);
+                deliveryAdapter.notifyItemRangeInserted(0, receptionList.size());
             });
         });
     }
@@ -215,9 +221,9 @@ public class DeliveryActivity extends AppCompatActivity {
         }, this::showToast);
     }
 
-    private Integer getMaxLength(List<Printer> toPrint){
+    private Integer getMaxLength(List<Printer> toPrint) {
         int length = 0;
-        for (Printer print: toPrint) {
+        for (Printer print : toPrint) {
             int tmp = print.getItemName().length();
             if (tmp > length) {
                 length = tmp;
