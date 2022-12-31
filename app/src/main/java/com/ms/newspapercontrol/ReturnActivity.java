@@ -1,6 +1,5 @@
 package com.ms.newspapercontrol;
 
-import android.Manifest;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,26 +38,6 @@ public class ReturnActivity extends AppCompatActivity {
 
     private final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
     private final Handler HANDLER = new Handler(Looper.getMainLooper());
-
-    private static final String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
-            Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_PRIVILEGED
-    };
-
-    private static final String[] PERMISSIONS_LOCATION = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
-            Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_PRIVILEGED
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,27 +78,47 @@ public class ReturnActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void save(){
+    private void save() {
         EXECUTOR.execute(() -> {
             DeliveryDao deliveryDao = databaseController.deliveryDao();
             List<Printer> toPrint = new ArrayList<>();
             List<Delivery> tmpDelivery = returnAdapter.getDeliveryList();
-            Integer total = 0;
-            for (Delivery delivery: tmpDelivery) {
+            Integer total = 0, totalCollectable = 0;
+            for (Delivery delivery : tmpDelivery) {
+                Integer delivered = delivery.getDeliveryItemQuantityDelivered();
+                Integer refunded = delivery.getDeliveryItemAmountRefunded();
+                Integer price = delivery.getReceptionNewsboyPrice();
                 if (Objects.equals(delivery.getItemCollectable(), 0)) {
                     //not collectable
-                    Integer delivered = delivery.getDeliveryItemQuantityDelivered();
-                    Integer refunded = delivery.getDeliveryItemAmountRefunded();
-                    Integer price = delivery.getReceptionNewsboyPrice();
                     Integer subTotal = (delivered - (Objects.equals(refunded, null) ? 0 : refunded)) * price;
                     total += subTotal;
                     delivery.setDeliveryItemReturnStatus(1);
                     delivery.setDeliveryItemReturnDate(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-                    toPrint.add(new Printer(
-                            delivery.getItemName(),
-                            new Util().getFormattedNumber(subTotal)));
-                    deliveryDao.updateDelivery(delivery);
+                    if (subTotal > 0) {
+                        toPrint.add(new Printer(
+                                delivery.getItemName(),
+                                new Util().getFormattedNumber(subTotal)));
+                    }
+                } else if (Objects.equals(delivery.getItemCollectable(), 1) && (refunded != null)) {
+                    Integer subTotal = refunded * price;
+                    totalCollectable += subTotal;
+                    if (Objects.equals(delivered, refunded)) {
+                        delivery.setDeliveryItemReturnStatus(1);
+                        delivery.setDeliveryItemReturnDate(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+                    } else if (delivered > refunded) {
+                        delivery.setDeliveryItemQuantityDelivered((delivered - refunded));
+                    }
                 }
+
+                deliveryDao.updateDelivery(delivery);
+            }
+
+            if (totalCollectable > 0) {
+                total += totalCollectable;
+                toPrint.add(new Printer(
+                        "Valores",
+                        new Util().getFormattedNumber(totalCollectable)
+                ));
             }
 
             final Integer finalTotal = total;
